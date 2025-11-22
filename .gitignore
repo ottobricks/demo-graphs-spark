@@ -6,3 +6,4 @@ nohup.out
 .venv/
 dist/
 data/
+notebooks/__marimo__/
