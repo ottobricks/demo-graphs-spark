@@ -1,23 +1,26 @@
 import marimo
 
 __generated_with = "0.18.0"
-app = marimo.App(width="medium")
+app = marimo.App(width="medium", css_file="../.marimo-theme.css")
 
 
 @app.cell
 def _():
     import os
-    from pyspark.sql import SparkSession
-    from graphframes.examples import Graphs
 
+    from graphframes.examples import Graphs
+    from pyspark.sql import SparkSession
 
     def get_spark_session() -> SparkSession:
         assert os.getenv("DEMO_JAVA_HOME") and os.getenv("DEMO_SPARK_HOME")
         os.environ["JAVA_HOME"] = os.getenv("DEMO_JAVA_HOME")
         os.environ["SPARK_HOME"] = os.getenv("DEMO_SPARK_HOME")
-        spark_session = SparkSession.builder.appName("Demo: Connected Components").getOrCreate()
+        spark_session = SparkSession.builder.appName(
+            "Demo: Connected Components"
+        ).getOrCreate()
         spark_session.sparkContext.setLogLevel("ERROR")
         return spark_session
+
     return Graphs, get_spark_session
 
 
