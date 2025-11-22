@@ -9,7 +9,5 @@ dependencies = [
     "marimo[recommended]>=0.18.0",
     "openai>=2.8.1",
     "pyspark==3.5.5",
+    "python-lsp-server>=1.13.2",
 ]
-[tool.marimo.runtime]
-pythonpath = ["pydata-demo/"]
-dotenv = [".env", ".env.testing"]

@@ -4,10 +4,20 @@ UNAME_S := $(shell uname -s)
 
 help:
 	@echo "make install         - Install Java and Python dependencies"
-	@echo "make install-java    - Install OpenJDK 17"
-	@echo "make install-python  - Install uv and run uv sync"
+	@echo "make start-notebook  - Start Marimo Notebook server in the background"
+	@echo "make stop-notebook   - Stop Marimo Notebook server"
 
 install: install-python install-java
+
+.PHONY: start-notebook
+start-notebook:
+	nohup uv run marimo edit ./ --no-token --headless &
+
+
+.PHONY: stop-notebook
+stop-notebook:
+	pkill -f marimo
+
 
 install-java:
 	@if java -version 2>&1 | grep -q "openjdk 17"; then \

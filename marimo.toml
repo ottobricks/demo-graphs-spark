@@ -1,4 +1,0 @@
-[ai.models]
-chat_model = "ollama/qwen2.5-coder:7b-instruct-q5_K_M"
-edit_model = "ollama/qwen2.5-coder:7b-instruct-q5_K_M"
-autocomplete_model = "ollama/qwen2.5-coder:7b-instruct-q5_K_M"
