@@ -1,6 +1,7 @@
 .env
 .env.bak
 .python-version
+nohup.out
 
 .venv/
 dist/
