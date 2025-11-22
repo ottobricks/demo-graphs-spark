@@ -63,6 +63,7 @@ destructive_delete = true
 preset = "vim"
 
 [keymap.overrides]
+"global.commandPalette" = "Cmd-Shift-a"
 
 [server]
 browser = "default"
