@@ -9,6 +9,16 @@ help:
 
 install: install-python install-java
 
+data:
+	# url="https://www.kaggle.com/api/v1/datasets/download/goyaladi/fraud-detection-dataset"
+	# dirname="data/$$(basename "$$url" .zip)"
+	# mkdir -p "$dirname" && curl -L "$url" | busybox unzip -q - -d "$dirname"
+	mkdir data
+	curl -L -o data/fraud-detection-dataset.zip \
+		https://www.kaggle.com/api/v1/datasets/download/goyaladi/fraud-detection-dataset
+	unzip -q data/fraud-detection-dataset.zip -d data/fraud-detection-dataset
+	rm data/fraud-detection-dataset.zip 
+
 .PHONY: start-notebook
 start-notebook:
 	nohup uv run marimo edit ./ --no-token --headless &
@@ -45,3 +55,5 @@ install-python:
 	@SPARK_HOME=.venv/lib/python3.11/site-packages/pyspark; \
 	grep -q "^SPARK_HOME=" .env 2>/dev/null && sed -i.bak "s|^SPARK_HOME=.*|SPARK_HOME=$$SPARK_HOME|" .env || echo "SPARK_HOME=$$SPARK_HOME" >> .env; \
 	echo "SPARK_HOME=$$SPARK_HOME set in .env"
+	chmod +x ./install/configure-spark-defaults.sh
+	./install/configure-spark-defaults.sh

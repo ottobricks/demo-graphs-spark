@@ -5,3 +5,4 @@ nohup.out
 
 .venv/
 dist/
+data/
