@@ -1,7 +1,7 @@
 [project]
 name = "pydata-demo"
 version = "0.1.0"
-description = "Add your description here"
+description = "PyData Tallinn + Wise, 2025: Graphs on big data: why don't you use Neo4j?"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -9,3 +9,6 @@ dependencies = [
     "marimo>=0.18.0",
     "pyspark==3.5.5",
 ]
+[tool.marimo.runtime]
+pythonpath = ["pydata-demo/"]
+dotenv = [".env", ".env.testing"]

@@ -1,3 +1,5 @@
+.env
+.python-version
+
 .venv/
 dist/
-.python-version
