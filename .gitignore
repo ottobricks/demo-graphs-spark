@@ -6,5 +6,7 @@ nohup.out
 .venv/
 dist/
 data/
-notebooks/__marimo__/
+__marimo__/
+layouts/
+__pycache__/
 lib/
