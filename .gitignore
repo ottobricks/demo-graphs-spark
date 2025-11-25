@@ -7,3 +7,4 @@ nohup.out
 dist/
 data/
 notebooks/__marimo__/
+lib/

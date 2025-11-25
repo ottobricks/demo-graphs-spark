@@ -6,7 +6,10 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "graphframes-py==0.10.0",
+    "gravis>=0.1.0",
     "marimo[recommended]>=0.18.0",
+    "matplotlib>=3.10.7",
+    "networkx>=3.5",
     "openai>=2.8.1",
     "pandas>=2.3.3",
     "pyspark==3.5.5",
