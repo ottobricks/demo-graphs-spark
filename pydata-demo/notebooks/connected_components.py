@@ -4,76 +4,72 @@ __generated_with = "0.18.0"
 app = marimo.App(width="medium", css_file="../../.marimo-theme.css")
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
-    import os
-
-    import matplotlib.pyplot as plt
+    import gravis as gv
     import networkx as nx
-    from graphframes.examples import Graphs
-    from pyspark.sql import SparkSession
+    from data import mock
+    from graphframes import GraphFrame
+    from main import get_spark_session
 
-    def get_spark_session() -> SparkSession:
-        assert os.getenv("DEMO_JAVA_HOME") and os.getenv("DEMO_SPARK_HOME")
-        os.environ["JAVA_HOME"] = os.getenv("DEMO_JAVA_HOME")
-        os.environ["SPARK_HOME"] = os.getenv("DEMO_SPARK_HOME")
-        spark_session = SparkSession.builder.appName(
-            "Demo: Connected Components"
-        ).getOrCreate()
-        spark_session.sparkContext.setLogLevel("ERROR")
-        return spark_session
-
-    return get_spark_session, nx
+    return GraphFrame, get_spark_session, gv, mock, nx  # type-ignore[weird]
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(get_spark_session):
     spark = get_spark_session()
     spark
-    return
+    return (spark,)
 
 
 @app.cell
-def _():
-    from ...data import mock
-
-    mock.get_participants()
-
-    # Graphs(spark).friends().vertices.selectExpr(
-    #     "concat(id, '1')"
-    # )
-    return
+def _(mock, spark):
+    vertices = mock.get_participants(spark)
+    vertices
+    return (vertices,)
 
 
 @app.cell
-def _(graph):
-    graph.vertices
-    return
+def _(mock, spark):
+    edges = mock.get_moneymovements(spark)
+    edges
+    return (edges,)
 
 
 @app.cell
-def _(graph):
-    graph.edges
-    return
+def _(GraphFrame, edges, vertices):
+    graph = GraphFrame(v=vertices, e=edges)
+    connected_components = graph.connectedComponents(
+        useLabelsAsComponents=True, use_local_checkpoints=True, broadcastThreshold=-1
+    )
+    return connected_components, graph
 
 
 @app.cell
-def _(graph, nx):
-    connected_components = graph.connectedComponents()
-
+def _(connected_components, graph, nx):
     # Yes, Pandas to plot. Know of a Spark native plotting lib? Feel free to open a PR
-    vertices_df = connected_components.toPandas()
+    vertices_df = connected_components.selectExpr(
+        "*", "if(aml_flagged, 'red', 'lightblue') as color"
+    ).toPandas()
     edges_df = graph.edges.toPandas()
 
     G = nx.from_pandas_edgelist(edges_df, "src", "dst")
+    nx.set_node_attributes(G, vertices_df.set_index("id").to_dict("index"))
+    nx.set_edge_attributes(G, edges_df.set_index(["src", "dst"]).to_dict("index"))
     return (G,)
 
 
 @app.cell
-def _(G):
-    import gravis as gv
-
-    gv.d3(G, edge_size_data_source="weight", use_edge_size_normalization=True)
+def _(G, gv):
+    gv.d3(
+        G,
+        edge_size_data_source="amount",
+        use_edge_size_normalization=True,
+        node_hover_neighborhood=True,
+        # node_color={node: 'red' if attrs.get('aml_flagged', False) else 'lightblue' for node, attrs in G.nodes(data=True)},
+        node_hover_tooltip=True,
+        node_label_data_source="name",
+    )
     return
 
 
