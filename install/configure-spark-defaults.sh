@@ -75,11 +75,11 @@ spark.sql.adaptive.skewJoin.skewedPartitionThresholdInBytes    3221225472
 spark.jars.packages     io.graphframes:graphframes-spark3_2.12:0.10.0,org.apache.hadoop:hadoop-common:3.3.4
 
 
-spark.checkpoint.dir                $(echo $PWD)/data/checkpoint
+spark.checkpoint.dir                $(echo $PWD)/pydata-demo/data/checkpoint
 spark.history.fs.logDirectory       $(echo $PWD)/logs
 spark.eventLog.dir                  $(echo $PWD)/logs
 spark.eventLog.enabled              false
-spark.local.dir                     $(echo $PWD)/data/spark-warehouse
-spark.sql.warehouse.dir             $(echo $PWD)/data/spark-warehouse
+spark.local.dir                     $(echo $PWD)/pydata-demo/data/spark-warehouse
+spark.sql.warehouse.dir             $(echo $PWD)/pydata-demo/data/spark-warehouse
 EOF
 

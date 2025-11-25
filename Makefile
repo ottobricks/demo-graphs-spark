@@ -21,7 +21,7 @@ data:
 
 .PHONY: start-notebook
 start-notebook:
-	nohup uv run marimo edit ./ --no-token --headless &
+	nohup uv run --with marimo marimo edit --no-token --headless &
 
 
 .PHONY: stop-notebook
