@@ -11,8 +11,7 @@ def _():
     from data import mock
     from graphframes import GraphFrame
     from main import get_spark_session
-
-    return GraphFrame, get_spark_session, gv, mock, nx  # type-ignore[weird]
+    return GraphFrame, get_spark_session, gv, mock, nx
 
 
 @app.cell(hide_code=True)
@@ -66,7 +65,6 @@ def _(G, gv):
         edge_size_data_source="amount",
         use_edge_size_normalization=True,
         node_hover_neighborhood=True,
-        # node_color={node: 'red' if attrs.get('aml_flagged', False) else 'lightblue' for node, attrs in G.nodes(data=True)},
         node_hover_tooltip=True,
         node_label_data_source="name",
     )
